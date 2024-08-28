@@ -34,11 +34,11 @@ ssize_t input_buffer(info_t *shell_info, char **buf, size_t *len)
 			shell_info->linecount_flag = 1;
 			strip_comments(*buf);
 			append_history_list(shell_info, *buf, shell_info->histcount++);
-			if (_strchr(*buf, ';'))
+			/* if (_strchr(*buf, ';'))
 			{
 				*len = r;
 				shell_info->cmd_buf = buf;
-			}
+			} */
 		}
 	}
 	return (r);
