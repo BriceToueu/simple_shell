@@ -227,7 +227,8 @@ ssize_t get_node_position(list_t *head, list_t *node);
 
 /* variable_replacement.c */
 int is_chain(info_t *shell_info, char *buf, size_t *p);
-void check_chain(info_t *shell_info, char *buf, size_t *p, size_t i, size_t len);
+void check_chain(info_t *shell_info, char *buf, size_t *p, size_t i,
+		size_t len);
 int replace_alias(info_t *shell_info);
 int replace_vars(info_t *shell_info);
 int replace_string(char **old, char *new);
