@@ -45,8 +45,8 @@ int is_chain(info_t *shell_info, char *buf, size_t *p)
  *
  * Return: Void
  */
-void check_chain(
-		info_t *shell_info, char *buf, size_t *p, size_t i, size_t len)
+void check_chain(info_t *shell_info, char *buf, size_t *p, size_t i,
+		size_t len)
 {
 	size_t j = *p;
 
@@ -118,20 +118,20 @@ int replace_vars(info_t *shell_info)
 		if (!_strcmp(shell_info->argv[i], "$?"))
 		{
 			replace_string(&(shell_info->argv[i]),
-				_strdup(number_to_string(shell_info->status, 10, 0)));
+					_strdup(number_to_string(shell_info->status, 10, 0)));
 			continue;
 		}
 		if (!_strcmp(shell_info->argv[i], "$$"))
 		{
 			replace_string(&(shell_info->argv[i]),
-				_strdup(number_to_string(getpid(), 10, 0)));
+					_strdup(number_to_string(getpid(), 10, 0)));
 			continue;
 		}
 		node = find_node_with_prefix(shell_info->env, &shell_info->argv[i][1], '=');
 		if (node)
 		{
 			replace_string(&(shell_info->argv[i]),
-				_strdup(_strchr(node->str, '=') + 1));
+					_strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
 		replace_string(&shell_info->argv[i], _strdup(""));

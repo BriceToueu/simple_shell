@@ -48,9 +48,9 @@ int hsh(info_t *shell_info, char **av)
  * @shell_info: the parameter & return info struct
  *
  * Return: -1 if builtin not found,
- * 0 if builtin executed successfully,
- * 1 if builtin found but not successful,
- * 2 if builtin signals exit()
+ *	0 if builtin executed successfully,
+ *	1 if builtin found but not successful,
+ *	2 if builtin signals exit()
  */
 int find_builtin(info_t *shell_info)
 {
@@ -100,8 +100,8 @@ void find_executable(info_t *shell_info)
 	if (!k)
 		return;
 
-	path = find_path(
-			shell_info, get_env(shell_info, "PATH="), shell_info->argv[0]);
+	path = find_path(shell_info, get_env(shell_info, "PATH="),
+			shell_info->argv[0]);
 	if (path)
 	{
 		shell_info->path = path;
@@ -110,8 +110,8 @@ void find_executable(info_t *shell_info)
 	else
 	{
 		if ((is_interactive_mode(shell_info) || get_env(shell_info, "PATH=")
-					|| shell_info->argv[0][0] == '/') && is_executable(
-						shell_info, shell_info->argv[0]))
+					|| shell_info->argv[0][0] == '/')
+					&& is_executable(shell_info, shell_info->argv[0]))
 			fork_executable(shell_info);
 		else if (*(shell_info->arg) != '\n')
 		{
@@ -140,9 +140,8 @@ void fork_executable(info_t *shell_info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(
-				shell_info->path, shell_info->argv, get_environ(shell_info))
-				== -1)
+		if (execve(shell_info->path, shell_info->argv,
+				get_environ(shell_info)) == -1)
 		{
 			release_info(shell_info, 1);
 			if (errno == EACCES)

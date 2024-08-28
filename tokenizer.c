@@ -17,8 +17,9 @@ char **split_string(char *str, char *d)
 	if (!d)
 		d = " ";
 	for (i = 0; str[i] != '\0'; i++)
-		if (!is_character_delim(
-				str[i], d) && (is_character_delim(str[i + 1], d) || !str[i + 1]))
+		if (!is_character_delim(str[i], d)
+			&& (is_character_delim(str[i + 1], d)
+			|| !str[i + 1]))
 			numwords++;
 
 	if (numwords == 0)
@@ -64,7 +65,7 @@ char **split_string_single_delim(char *str, char d)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
 		if ((str[i] != d && str[i + 1] == d) ||
-				    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+					(str[i] != d && !str[i + 1]) || str[i + 1] == d)
 			numwords++;
 	if (numwords == 0)
 		return (NULL);

@@ -20,7 +20,7 @@ void _print_in_str(char *str)
 }
 
 /**
- * write_char_to_stderr - writes the character c to stderr
+ * _write_char_to_stderr - writes the character c to stderr
  * @c: The character to print
  *
  * Return: On success 1.
@@ -42,7 +42,7 @@ int _write_char_to_stderr(char c)
 }
 
 /**
- * write_char_to_fd - writes the character c to given fd
+ * _write_char_to_fd - writes the character c to given fd
  * @c: The character to print
  * @fd: The filedescriptor to write to
  *

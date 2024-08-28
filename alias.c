@@ -31,9 +31,8 @@ int remove_alias(info_t *shell_info, char *str)
 	c = *p;
 	*p = 0;
 	ret = delete_node_at_index(&(shell_info->alias),
-		get_node_position(
-			shell_info->alias, find_node_with_prefix(shell_info->alias, str, -1))
-		);
+		get_node_position(shell_info->alias,
+		find_node_with_prefix(shell_info->alias, str, -1)));
 	*p = c;
 	return (ret);
 }
@@ -110,9 +109,8 @@ int mimic_alias(info_t *shell_info)
 		if (p)
 			assign_alias(shell_info, shell_info->argv[i]);
 		else
-			display_alias(
-					find_node_with_prefix(shell_info->alias, shell_info->argv[i], '=')
-					);
+			display_alias(find_node_with_prefix(shell_info->alias,
+							shell_info->argv[i], '='));
 	}
 
 	return (0);
