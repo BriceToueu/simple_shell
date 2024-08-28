@@ -77,4 +77,4 @@ $
 ```
 
 ## Authors
-Lesego Nkosi & Toueu Nunkahon Guy-Brice
+'Lesego Nkosi & Toueu Nunkahon Guy-Brice'
