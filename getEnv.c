@@ -8,9 +8,8 @@
  */
 char **get_environ(info_t *shell_info)
 {
-	if (shell_info->env_changed)
+	if (!shell_info->environ || shell_info->env_changed)
 	{
-		free(shell_info->environ);
 		shell_info->environ = convert_list_to_strings(shell_info->env);
 		shell_info->env_changed = 0;
 	}
@@ -25,9 +24,10 @@ char **get_environ(info_t *shell_info)
  *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
-int _unsetenv(info_t *shell_info, const char *var)
+int _unsetenv(info_t *shell_info, char *var)
 {
-	list_t *node = shell_info->env, *prev = NULL;
+	list_t *node = shell_info->env;
+	size_t i = 0;
 	char *p;
 
 	if (!node || !var)
@@ -38,20 +38,15 @@ int _unsetenv(info_t *shell_info, const char *var)
 		p = starts_with(node->str, var);
 		if (p && *p == '=')
 		{
-			if (prev)
-				prev->next = node->next;
-			else
-				shell_info->env = node->next;
-
-			free(node->str);
-			free(node);
-			shell_info->env_changed = 1;
-			return (1);
+			shell_info->env_changed = delete_node_at_index(&(shell_info->env), i);
+			i = 0;
+			node = shell_info->env;
+			continue;
 		}
-		prev = node;
 		node = node->next;
+		i++;
 	}
-	return (0);
+	return (shell_info->env_changed);
 }
 
 /**
@@ -63,24 +58,23 @@ int _unsetenv(info_t *shell_info, const char *var)
  * @value: the string env var value
  *  Return: Always 0
  */
-int _setenv(info_t *shell_info, const char *var, const char *value)
+int _setenv(info_t *shell_info, char *var, char *value)
 {
-	char *buf;
+	char *buf = NULL;
 	list_t *node;
 	char *p;
 
 	if (!var || !value)
 		return (0);
 
-	buf = malloc(strlen(var) + strlen(value) + 2);
+	buf = malloc(_strlen(var) + _strlen(value) + 2);
 	if (!buf)
 		return (1);
-
-	strcpy(buf, var);
-	strcat(buf, "=");
-	strcat(buf, value);
-
-	for (node = shell_info->env; node; node = node->next)
+	_strcpy(buf, var);
+	_strcat(buf, "=");
+	_strcat(buf, value);
+	node = shell_info->env;
+	while (node)
 	{
 		p = starts_with(node->str, var);
 		if (p && *p == '=')
@@ -90,9 +84,10 @@ int _setenv(info_t *shell_info, const char *var, const char *value)
 			shell_info->env_changed = 1;
 			return (0);
 		}
+		node = node->next;
 	}
-
 	add_node_end(&(shell_info->env), buf, 0);
+	free(buf);
 	shell_info->env_changed = 1;
 	return (0);
 }
