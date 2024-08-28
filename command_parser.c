@@ -32,16 +32,13 @@ int is_executable(info_t *shell_info, char *path)
  */
 char *copy_chars(char *pathstr, int start, int stop)
 {
-	char *buf = malloc((stop - start + 1 )* sizeof(char));
+	static char buf[1024];
 	int i = 0, k = 0;
-
-	if (!buf)
-		return (NULL);
 
 	for (k = 0, i = start; i < stop; i++)
 		if (pathstr[i] != ':')
 			buf[k++] = pathstr[i];
-	buf[k] = '\0';
+	buf[k] = 0;
 	return (buf);
 }
 
@@ -70,10 +67,6 @@ char *find_path(info_t *shell_info, char *pathstr, char *cmd)
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
 			path = copy_chars(pathstr, curr_pos, i);
-
-			if (!path)
-				return (NULL);
-
 			if (!*path)
 				_strcat(path, cmd);
 			else
@@ -83,7 +76,6 @@ char *find_path(info_t *shell_info, char *pathstr, char *cmd)
 			}
 			if (is_executable(shell_info, path))
 				return (path);
-			free(path);
 			if (!pathstr[i])
 				break;
 			curr_pos = i;
