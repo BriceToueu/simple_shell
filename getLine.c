@@ -18,11 +18,11 @@ ssize_t input_buffer(info_t *shell_info, char **buf, size_t *len)
 		free(*buf);
 		*buf = NULL;
 		signal(SIGINT, sigintHandler);
-#if USE_GETLINE
-		bytes_read = getline(buf, &buffer_length, stdin);
-#else
+/* #if USE_GETLINE */
+		/* bytes_read = getline(buf, &buffer_length, stdin); */
+/* #else */
 		bytes_read = _getline(shell_info, buf, &buffer_length);
-#endif
+/* #endif */
 		if (bytes_read > 0)
 		{
 			if ((*buf)[bytes_read - 1] == '\n')
@@ -33,8 +33,8 @@ ssize_t input_buffer(info_t *shell_info, char **buf, size_t *len)
 			shell_info->linecount_flag = 1;
 			strip_comments(*buf);
 			append_history_list(shell_info, *buf, shell_info->histcount++);
-			*len = bytes_read;
-			shell_info->cmd_buf = buf;
+			/* *len = bytes_read;
+			shell_info->cmd_buf = buf; */
 		}
 	}
 	return (bytes_read);
